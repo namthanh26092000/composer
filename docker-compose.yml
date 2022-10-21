@@ -1,5 +1,31 @@
 version: "3.3"
 services:
+   webserver:
+    restart: always
+    build: docker/webserver
+    container_name: nginx-server
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3000:3000"
+      - "3001:3001"
+      - "8080:8080"
+      - "4200:4200"
+      - "27017:27017"
+      - "9009:9009"
+    environment:
+      SCHOOLLINK_RABBITMQ_HOST: rabbitmq
+      SCHOOLLINK_RABBITMQ_PORT: 5672
+      SCHOOLLINK_RABBITMQ_USER: admin
+      SCHOOLLINK_RABBITMQ_PASS: docker
+    tty: true
+    volumes:
+      - C:\Users\nam.bui\sl-docker-2\sl-docker-2\www:/var/www/html
+      - C:\Users\nam.bui\sl-docker-2\sl-docker-2\docker\webserver\config:/var/www/config
+      # - /Users/ceres/working/projects/netpower/sl-docker/www:/var/www/html
+      # - /Users/ceres/working/projects/netpower/sl-docker/docker/webserver/config:/var/www/config
+      - mongodbdata:/data/db
+      - ./logs:/var/log/dev-log
   mysql:
     image: mysql:5.7
     hostname: "mysql"
